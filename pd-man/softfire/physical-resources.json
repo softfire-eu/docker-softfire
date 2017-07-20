@@ -1,0 +1,15 @@
+{
+	"fokus-cell":{
+		"description": "The Physical LTE Cell at Fraunhofer FOKUS able to be connected to the Open5GCore NS",
+       		"cardinality": 1,
+		 "node_type": "PhysicalResource",
+		 "testbed": "fokus",
+		 "value":"please go to fraunhofer fokus in order to be able to use this resource"
+	},"fokus-cell-2":{
+		"description": "The Physical LTE Cell at Fraunhofer FOKUS able to be connected to the Open5GCore NS",
+       		"cardinality": 1,
+		 "node_type": "PhysicalResource",
+		 "testbed": "fokus",
+		 "value":"please go to fraunhofer fokus in order to be able to use this resource"
+	}
+}

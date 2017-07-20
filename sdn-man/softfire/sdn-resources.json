@@ -1,0 +1,12 @@
+{
+  "sdn-controller-opensdncore-fokus": {
+    "description": "SDN Controller",
+    "cardinality": -1,
+    "node_type": "SDNResource",
+    "testbed": "fokus",
+    "private": {
+      "url": "http://sdn-proxy:8001/",
+      "secret": "xxx"
+    }
+  }
+}

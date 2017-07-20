@@ -1,0 +1,54 @@
+version: '3.2'
+
+services:
+  exman:
+    build:
+      context: ./ex-man
+      cache_from:
+        - exman-sf
+    ports:
+      - "127.0.0.1:5180:5080"
+  nfvman:
+    build:
+      context: ./nfv-man
+      cache_from:
+        - nfvman-sf
+      args:
+        PORT: 5053
+  pdman:
+    build:
+      context: ./pd-man
+      cache_from:
+        - pdman-sf
+      args:
+        PORT: 5054
+  secman:
+    build:
+      context: ./sec-man
+      cache_from:
+        - secman-sf
+      args:
+        PORT: 5060
+  sdnman:
+    build:
+      context: ./sdn-man
+      cache_from:
+        - sdnman-sf
+      args:
+        PORT: 5058
+  monman:
+    build:
+      context: ./mon-man
+      cache_from:
+        - sdnman-sf
+      args:
+        PORT: 5090
+  # openbaton:
+  #   image: openbaton/standalone
+  #   ports:
+  #     - "127.0.0.1:8181:8080"
+  #     - "15672:15672"
+  #     - "5672:5672"
+  #     - "8443:8443"
+  #   # args:
+  #   #   RABBITMQ_BROKERIP: "10.147.66.148"
