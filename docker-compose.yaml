@@ -43,12 +43,13 @@ services:
         - sdnman-sf
       args:
         PORT: 5090
-  # openbaton:
-  #   image: openbaton/standalone
-  #   ports:
-  #     - "127.0.0.1:8181:8080"
-  #     - "15672:15672"
-  #     - "5672:5672"
-  #     - "8443:8443"
-  #   # args:
-  #   #   RABBITMQ_BROKERIP: "10.147.66.148"
+  openbaton:
+    image: openbaton/standalone
+    hostname: openbaton-rabbitmq
+    ports:
+      - "127.0.0.1:8181:8080"
+      - "15672:15672"
+      - "5672:5672"
+      - "8443:8443"
+    environment:
+      RABBITMQ_BROKERIP: "10.147.66.148"
