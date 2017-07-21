@@ -5,7 +5,7 @@
 
 # Set the base image to Ubuntu
 FROM python:3.5
-ARG PORT
+ARG PORT=5055
 # File Author / Maintainer
 MAINTAINER SoftFIRE
 
