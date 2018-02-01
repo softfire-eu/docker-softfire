@@ -67,14 +67,14 @@ services:
   vnfm-generic:
     image: openbaton/vnfm-generic:latest
     depends_on:
-      - nfvo
+      - openbaton-nfvo
     restart: always
     environment:
       - VNFM_RABBITMQ_BROKERIP=rabbitmq_broker
   plugin-vimdriver-openstack-4j:
     image: openbaton/plugin-vimdriver-openstack-4j:latest
     depends_on:
-      - nfvo
+      - openbaton-nfvo
     restart: always
     environment:
       - RABBITMQ=rabbitmq_broker
