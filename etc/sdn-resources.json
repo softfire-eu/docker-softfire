@@ -1,0 +1,42 @@
+{
+  "sdn-controller-opensdncore-fokus": {
+    "description": "OpenSDNCore Controller JSON-RPC API endpoint for the Fraunhofer FOKUS Testbed. For further Information please refer to the <a href='http://docs.softfire.eu/opensdncore/'>documentation</a>.",
+    "cardinality": -1,
+    "node_type": "SDNResource",
+    "testbed": "fokus-dev",
+    "private": {
+      "url": "http://172.20.30.5:8001/",
+      "secret": "90d8_changeme_a43e"
+    }
+  },
+  "sdn-controller-odl-ericsson": {
+    "description": "OpenDayLight Controller API endpoint for the Ericsson Testbed.",
+    "cardinality": -1,
+    "node_type": "SDNResource",
+    "testbed": "ericsson",
+    "private": {
+      "url": "http://10.44.56.200:8001/",
+      "secret": "xxxx"
+    }
+  },
+  "sdn-controller-odl-ads": {
+    "description": "OpenDayLight Controller API endpoint for the Assemby Data Systems Testbed.",
+    "cardinality": -1,
+    "node_type": "SDNResource",
+    "testbed": "ads",
+    "private": {
+      "url": "http://172.20.70.1:8001/",
+      "secret": "xxxx"
+    }
+  },
+  "sdn-controller-odl-surrey": {
+    "description": "OpenDayLight Controller API endpoint for the University of Surrey Testbed.",
+    "cardinality": -1,
+    "node_type": "SDNResource",
+    "testbed": "surrey",
+    "private": {
+      "url": "http://172.20.17.1:8001/",
+      "secret": "xxxx"
+    }
+  }
+}

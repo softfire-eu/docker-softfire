@@ -1,0 +1,3 @@
+[submodule "views"]
+	path = views
+	url = git@github.com:softfire-eu/views.git

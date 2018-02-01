@@ -1,0 +1,100 @@
+version: '3'
+
+services:
+  experiment-manager:
+    image: softfire/experiment-manager:latest
+    ports:
+      - 5080:5080
+      - 5051:5051
+    volumes:
+      - ./etc/experiment-manager.ini:/etc/softfire/experiment-manager.ini
+      - ./etc/mapping-managers.json:/etc/softfire/mapping-managers.json
+      - ./views:/etc/softfire/views
+  nfv-manager:
+    image: softfire/nfv-manager:latest
+    ports:
+      - 5053:5053
+    volumes:
+      - ./etc/nfv-manager.ini:/etc/softfire/nfv-manager.ini
+      - ./etc/mapping-managers.json:/etc/softfire/mapping-managers.json
+      - ./etc/openstack-credentials.json:/etc/softfire/openstack-credentials.json
+  physical-device-manager:
+    image: softfire/physical-device-manager:latest
+    ports:
+      - 5054:5054
+    volumes:
+      - ./etc/physical-device-manager.ini:/etc/softfire/physical-device-manager.ini
+      - ./etc/physical-resources.json:/etc/softfire/physical-resources.json
+  security-manager:
+    image: softfire/security-manager:latest
+    ports:
+      - 4096:4096
+      - 5060:5060
+    volumes:
+      - ./etc/openstack-credentials.json:/etc/softfire/openstack-credentials.json
+      - ./etc/physical-resources.json:/etc/softfire/physical-resources.json
+  sdn-manager:
+    image: softfire/sdn-manager:latest
+    ports:
+      - 5058:5058
+    volumes:
+      - ./etc/sdn-manager.ini:/etc/softfire/sdn-manager.ini
+      - ./etc/sdn-resources.json:/etc/softfire/sdn-resources.json
+  # monman:
+  #   build:
+  #     context: ./mon-man
+  #     cache_from:
+  #       - sdnman-sf
+  #     args:
+  #       PORT: 5090
+  openbaton-nfvo:
+    image: openbaton/nfvo:latest
+    depends_on:
+      - rabbitmq_broker
+      - nfvo_database
+    restart: always
+    environment:
+      - NFVO_RABBIT_BROKERIP=${HOST_IP} # for use in userdata.sh in vnfm-generic
+      - NFVO_MONITORING_IP=${ZABBIX_IP}
+      - NFVO_PLUGIN_INSTALLATION-DIR=/dev/null
+      - SPRING_RABBITMQ_HOST=rabbitmq_broker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://nfvo_database:3306/openbaton
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.mariadb.jdbc.Driver
+      - SPRING_JPA_DATABASE-PLATFORM=org.hibernate.dialect.MySQLDialect
+      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
+    ports:
+      - "8080:8080"
+  vnfm-generic:
+    image: openbaton/vnfm-generic:latest
+    depends_on:
+      - nfvo
+    restart: always
+    environment:
+      - VNFM_RABBITMQ_BROKERIP=rabbitmq_broker
+  plugin-vimdriver-openstack-4j:
+    image: openbaton/plugin-vimdriver-openstack-4j:latest
+    depends_on:
+      - nfvo
+    restart: always
+    environment:
+      - RABBITMQ=rabbitmq_broker
+  nfvo_database:
+    image: mariadb
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_DATABASE=openbaton
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=changeme
+    volumes:
+      - ./dbdata_nfvo:/var/lib/mysql
+  rabbitmq_broker:
+    image: rabbitmq:3-management-alpine
+    hostname: openbaton-rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=openbaton
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./dbdata_rabbit:/var/lib/rabbitmq
