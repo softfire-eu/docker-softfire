@@ -1,19 +1,9 @@
 {
-  "fokus-cell": {
-    "description": "The Physical LTE Cell at Fraunhofer FOKUS able to be connected to the Open5GCore NS",
+  "lte-cell": {
+    "description": "The Physical LTE Cell ",
     "cardinality": 1,
     "node_type": "PhysicalResource",
     "testbed": "fokus",
-    "value":"please go to fraunhofer fokus in order to be able to use this resource"
-  },
-  "surrey-ue": {
-    "description": "The UE devices at the University of Surrey which are connected to a virtualised LTE EPC",
-    "cardinality": 3,
-    "node_type": "PhysicalResource",
-    "testbed": "surrey",
-    "private": {
-      "url": "http://172.20.17.28:8080/",
-      "secret": "xxxx"
-    }
+    "value":"LTE CELL"
   }
 }
