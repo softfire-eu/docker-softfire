@@ -20,6 +20,7 @@ services:
     volumes:
       - ./etc/nfv-manager.ini:/etc/softfire/nfv-manager.ini
       - ./etc/mapping-managers.json:/etc/softfire/mapping-managers.json
+      - ./etc/available-nsds.json:/etc/softfire/available-nsds.json
       - ./etc/openstack-credentials.json:/etc/softfire/openstack-credentials.json
   physical-device-manager:
     image: softfire/physical-device-manager:latest
