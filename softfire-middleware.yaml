@@ -12,6 +12,9 @@ services:
       - ./views:/etc/softfire/views
   nfv-manager:
     image: softfire/nfv-manager:latest
+    depends_on:
+      - experiment-manager
+      - openbaton-nfvo
     ports:
       - 5053:5053
     volumes:
@@ -20,6 +23,8 @@ services:
       - ./etc/openstack-credentials.json:/etc/softfire/openstack-credentials.json
   physical-device-manager:
     image: softfire/physical-device-manager:latest
+    depends_on:
+      - experiment-manager
     ports:
       - 5054:5054
     volumes:
@@ -27,6 +32,8 @@ services:
       - ./etc/physical-resources.json:/etc/softfire/physical-resources.json
   security-manager:
     image: softfire/security-manager:latest
+    depends_on:
+      - experiment-manager
     ports:
       - 4096:4096
       - 5060:5060
@@ -35,6 +42,8 @@ services:
       - ./etc/physical-resources.json:/etc/softfire/physical-resources.json
   sdn-manager:
     image: softfire/sdn-manager:latest
+    depends_on:
+      - experiment-manager
     ports:
       - 5058:5058
     volumes:
