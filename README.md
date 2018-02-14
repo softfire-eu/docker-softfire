@@ -1,4 +1,11 @@
-# How to install the SoftFIRE middleware using docker compose
+  <img src="https://www.softfire.eu/wp-content/uploads/SoftFIRE_Logo_Fireball-300x300.png" width="120"/>
+
+  Copyright © 2016-2018 [SoftFIRE](https://www.softfire.eu/) and [TU Berlin](http://www.av.tu-berlin.de/next_generation_networks/).
+  Licensed under [Apache v2 License](http://www.apache.org/licenses/LICENSE-2.0).
+
+# docker-softfire
+
+This project provides SoftFIRE middleware installation using docker compose.
 
 ## Prerequisites
 
@@ -85,8 +92,9 @@ vim etc/openstack-credentials.json
 ```
 modify the file in order to match your openstack endpoint.
 
-!!! Note
-    At the moment only v3 is supported
+```    
+At the moment only v3 is supported
+```
 
 ```json
 {
@@ -104,12 +112,9 @@ modify the file in order to match your openstack endpoint.
 }
 ```
 
-!!! Note
+```
     please let as key _fokus_ since it is needed to be one of the SoftFIRE testbed names.
-
-### Sdn Manager
-
-Coming soon!
+```
 
 ## Deploy!
 
@@ -119,8 +124,9 @@ Now it is time to deploy:
 HOST_IP=<youriphere> docker-compose -f softfire-middleware.yaml up -d
 ```
 
-!!! Note
-    <yourip> stands for the ip where the rabbitmq container runs, the VMs will contact this ip when registering to Open Baton.
+```
+<yourip> stands for the ip where the rabbitmq container runs, the VMs will contact this ip when registering to Open Baton.
+```
 
 The Experiment Manager is available at http://localhost:5080. You can access the admin portal by using admin/admin.
 
@@ -129,3 +135,33 @@ Please bear in mind that each container takes different time to be up and runnin
 The next step is to create an experimenter. By creating a user, a long chain of calls will be performed. In particular the Nfv Manager will create a user in OpenStack and then upload the right vim to Open Baton.
 
 If it goes well, then you are able to logout and then log in with the create username and password and you should be able to see all the available resources.
+
+
+## Issue tracker
+
+Issues and bug reports should be posted to the GitHub Issue Tracker of this project.
+
+# What is SoftFIRE?
+
+SoftFIRE provides a set of technologies for building a federated experimental platform aimed at the construction and experimentation of services and functionalities built on top of NFV and SDN technologies.
+The platform is a loose federation of already existing testbed owned and operated by distinct organizations for purposes of research and development.
+
+SoftFIRE has three main objectives: supporting interoperability, programming and security of the federated testbed.
+Supporting the programmability of the platform is then a major goal and it is the focus of the SoftFIRE’s Second Open Call.
+
+## Licensing and distribution
+Copyright © [2016-2018] SoftFIRE project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
