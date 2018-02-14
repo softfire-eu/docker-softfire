@@ -93,7 +93,7 @@ vim etc/openstack-credentials.json
 modify the file in order to match your openstack endpoint.
 
 ```    
-**Note**: At the moment only v3 is supported
+###### Note: At the moment only v3 is supported
 ```
 
 ```json
@@ -113,7 +113,7 @@ modify the file in order to match your openstack endpoint.
 ```
 
 ```
-   **Note**:  please let as key _fokus_ since it is needed to be one of the SoftFIRE testbed names.
+###### Note:  please let as key _fokus_ since it is needed to be one of the SoftFIRE testbed names.
 ```
 
 ## Deploy!
@@ -125,7 +125,7 @@ HOST_IP=<youriphere> docker-compose -f softfire-middleware.yaml up -d
 ```
 
 ```
-**Note**: <yourip> stands for the ip where the rabbitmq container runs, the VMs will contact this ip when registering to Open Baton.
+###### Note: <yourip> stands for the ip where the rabbitmq container runs, the VMs will contact this ip when registering to Open Baton.
 ```
 
 The Experiment Manager is available at http://localhost:5080. You can access the admin portal by using admin/admin.
