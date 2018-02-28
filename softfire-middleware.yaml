@@ -9,6 +9,7 @@ services:
     volumes:
       - ./etc/experiment-manager.ini:/etc/softfire/experiment-manager.ini
       - ./etc/mapping-managers.json:/etc/softfire/mapping-managers.json
+      - ./etc/experiment-nsd-csar:/etc/softfire/experiment-nsd-csar
       - ./views:/etc/softfire/views
   nfv-manager:
     image: softfire/nfv-manager:latest
@@ -22,6 +23,7 @@ services:
       - ./etc/mapping-managers.json:/etc/softfire/mapping-managers.json
       - ./etc/available-nsds.json:/etc/softfire/available-nsds.json
       - ./etc/openstack-credentials.json:/etc/softfire/openstack-credentials.json
+      - ./etc/experiment-nsd-csar:/etc/softfire/experiment-nsd-csar
   physical-device-manager:
     image: softfire/physical-device-manager:latest
     depends_on:
