@@ -11,6 +11,10 @@ services:
       - ./etc/mapping-managers.json:/etc/softfire/mapping-managers.json
       - ./etc/experiment-nsd-csar:/etc/softfire/experiment-nsd-csar
       - ./views:/etc/softfire/views
+    logging:
+      options:
+        gelf-address: "udp://172.28.100.100:12201"
+      driver: gelf
   nfv-manager:
     image: softfire/nfv-manager:latest
     depends_on:
@@ -24,6 +28,10 @@ services:
       - ./etc/available-nsds.json:/etc/softfire/available-nsds.json
       - ./etc/openstack-credentials.json:/etc/softfire/openstack-credentials.json
       - ./etc/experiment-nsd-csar:/etc/softfire/experiment-nsd-csar
+    logging:
+      options:
+        gelf-address: "udp://172.28.100.100:12201"
+      driver: gelf
   physical-device-manager:
     image: softfire/physical-device-manager:latest
     depends_on:
@@ -33,6 +41,10 @@ services:
     volumes:
       - ./etc/physical-device-manager.ini:/etc/softfire/physical-device-manager.ini
       - ./etc/physical-resources.json:/etc/softfire/physical-resources.json
+    logging:
+      options:
+        gelf-address: "udp://172.28.100.100:12201"
+      driver: gelf
   security-manager:
     image: softfire/security-manager:latest
     depends_on:
@@ -43,6 +55,10 @@ services:
     volumes:
       - ./etc/openstack-credentials.json:/etc/softfire/openstack-credentials.json
       - ./etc/physical-resources.json:/etc/softfire/physical-resources.json
+    logging:
+      options:
+        gelf-address: "udp://172.28.100.100:12201"
+      driver: gelf
   sdn-manager:
     image: softfire/sdn-manager:latest
     depends_on:
@@ -52,13 +68,10 @@ services:
     volumes:
       - ./etc/sdn-manager.ini:/etc/softfire/sdn-manager.ini
       - ./etc/sdn-resources.json:/etc/softfire/sdn-resources.json
-  # monman:
-  #   build:
-  #     context: ./mon-man
-  #     cache_from:
-  #       - sdnman-sf
-  #     args:
-  #       PORT: 5090
+    logging:
+      options:
+        gelf-address: "udp://172.28.100.100:12201"
+      driver: gelf
   openbaton-nfvo:
     image: openbaton/nfvo:latest
     depends_on:
@@ -81,6 +94,10 @@ services:
       - NFVO_VNFD_CASCADE_DELETE=true
     ports:
       - "8080:8080"
+    logging:
+      options:
+        gelf-address: "udp://172.28.100.100:12201"
+      driver: gelf
   vnfm-generic:
     image: openbaton/vnfm-generic:latest
     depends_on:
@@ -88,6 +105,10 @@ services:
     restart: always
     environment:
       - VNFM_RABBITMQ_BROKERIP=rabbitmq_broker
+    logging:
+      options:
+        gelf-address: "udp://172.28.100.100:12201"
+      driver: gelf
   plugin-vimdriver-openstack-4j:
     image: openbaton/plugin-vimdriver-openstack-4j:latest
     depends_on:
@@ -95,6 +116,10 @@ services:
     restart: always
     environment:
       - RABBITMQ=rabbitmq_broker
+    logging:
+      options:
+        gelf-address: "udp://172.28.100.100:12201"
+      driver: gelf
   nfvo_database:
     image: mariadb
     environment:
@@ -104,6 +129,10 @@ services:
       - MYSQL_PASSWORD=changeme
     volumes:
       - ./dbdata_nfvo:/var/lib/mysql
+    logging:
+      options:
+        gelf-address: "udp://172.28.100.100:12201"
+      driver: gelf
   rabbitmq_broker:
     image: rabbitmq:3-management-alpine
     hostname: openbaton-rabbitmq
@@ -115,3 +144,55 @@ services:
       - "15672:15672"
     volumes:
       - ./dbdata_rabbit:/var/lib/rabbitmq
+    logging:
+      options:
+        gelf-address: "udp://172.28.100.100:12201"
+      driver: gelf
+  elasticsearch:
+    build:
+      context: elasticsearch/
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - default
+
+  logstash:
+    build:
+      context: logstash/
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - "5000:5000"
+      - "12201:12201"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      default:
+        ipv4_address: 172.28.100.100
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    build:
+      context: kibana/
+    volumes:
+      - ./kibana/config/:/usr/share/kibana/config:ro
+    ports:
+      - "5601:5601"
+    networks:
+      - default
+    depends_on:
+      - elasticsearch
+
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
